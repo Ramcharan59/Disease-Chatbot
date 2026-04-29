@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ArogyaBot — Disease Awareness Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans', sans-serif; background: #f5f7fa; color: #1a1a1a; font-size: 15px; }
+
+    .top-strip { background: #1a3a6b; color: #fff; font-size: 12px; padding: 5px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .top-strip span { opacity: 0.85; }
+    .top-strip a { color: #ffd700; text-decoration: none; font-weight: 600; }
+
+    header { background: #fff; border-bottom: 3px solid #FF6B00; }
+    .header-main { display: flex; align-items: center; padding: 12px 24px; gap: 16px; max-width: 1200px; margin: 0 auto; }
+    .logo-circle { width: 60px; height: 60px; background: #1a3a6b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
+    .logo-text h1 { font-size: 1.3rem; font-weight: 700; color: #1a3a6b; line-height: 1.2; }
+    .logo-text p { font-size: 0.75rem; color: #666; margin-top: 2px; }
+    .header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .helpline { background: #fff3e0; border: 1px solid #FF6B00; border-radius: 6px; padding: 6px 14px; text-align: center; }
+    .helpline p { font-size: 10px; color: #666; }
+    .helpline strong { color: #FF6B00; font-size: 1.1rem; display: block; }
+
+    nav { background: #1a3a6b; }
+    .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; }
+    nav a { color: #fff; text-decoration: none; padding: 12px 18px; font-size: 0.88rem; font-weight: 500; display: inline-block; transition: background 0.2s; border-right: 1px solid rgba(255,255,255,0.1); }
+    nav a:hover, nav a.active { background: #FF6B00; }
+    .nav-chat-btn { margin-left: auto; background: #FF6B00; color: #fff; padding: 10px 20px; font-weight: 600; font-size: 0.88rem; border: none; cursor: pointer; font-family: 'Noto Sans', sans-serif; }
+    .nav-chat-btn:hover { background: #e55a00; }
+
+    .hero-banner { background: linear-gradient(135deg, #1a3a6b 0%, #2a5298 100%); color: #fff; padding: 40px 24px; text-align: center; }
+    .hero-banner h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; margin-bottom: 10px; }
+    .hero-banner p { font-size: 1rem; opacity: 0.88; max-width: 600px; margin: 0 auto 24px; }
+    .hero-banner-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-orange { background: #FF6B00; color: #fff; padding: 10px 24px; border: none; border-radius: 4px; font-size: 0.92rem; font-weight: 600; cursor: pointer; font-family: 'Noto Sans', sans-serif; transition: background 0.2s; }
+    .btn-orange:hover { background: #e55a00; }
+    .btn-white { background: #fff; color: #1a3a6b; padding: 10px 24px; border: none; border-radius: 4px; font-size: 0.92rem; font-weight: 600; cursor: pointer; font-family: 'Noto Sans', sans-serif; }
+    .btn-white:hover { opacity: 0.88; }
+
+    .stats-bar { background: #fff; border-bottom: 1px solid #ddd; }
+    .stats-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; flex-wrap: wrap; }
+    .stat-item { padding: 16px 32px; text-align: center; border-right: 1px solid #eee; }
+    .stat-item:last-child { border-right: none; }
+    .stat-item strong { display: block; font-size: 1.4rem; color: #1a3a6b; font-weight: 700; }
+    .stat-item span { font-size: 0.78rem; color: #666; }
+
+    .main { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+    .sec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .sec-head-bar { width: 5px; height: 24px; background: #FF6B00; border-radius: 2px; flex-shrink: 0; }
+    .sec-head h2 { font-size: 1.1rem; font-weight: 700; color: #1a3a6b; }
+
+    .disease-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 32px; }
+    .disease-card { background: #fff; border: 1px solid #dde3ee; border-top: 3px solid #1a3a6b; border-radius: 4px; padding: 16px; cursor: pointer; transition: box-shadow 0.2s, border-top-color 0.2s; }
+    .disease-card:hover { box-shadow: 0 4px 16px rgba(26,58,107,0.12); border-top-color: #FF6B00; }
+    .disease-card .icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+    .disease-card h3 { font-size: 0.95rem; font-weight: 700; color: #1a3a6b; margin-bottom: 6px; }
+    .disease-card p { font-size: 0.8rem; color: #555; line-height: 1.5; }
+    .disease-card .tag { display: inline-block; margin-top: 8px; background: #e8edf5; color: #1a3a6b; font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 2px; text-transform: uppercase; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+    @media(max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+    .info-box { background: #fff; border: 1px solid #dde3ee; border-radius: 4px; overflow: hidden; }
+    .info-box-head { background: #1a3a6b; color: #fff; padding: 10px 16px; font-size: 0.88rem; font-weight: 600; }
+    .info-box-body { padding: 16px; }
+    .info-box-body ul { padding-left: 18px; }
+    .info-box-body li { font-size: 0.84rem; color: #444; margin-bottom: 8px; line-height: 1.5; }
+    .info-box-body li strong { color: #1a3a6b; }
+
+    .notice { background: #fff8e1; border: 1px solid #ffc107; border-left: 4px solid #ffc107; border-radius: 4px; padding: 12px 16px; margin-bottom: 24px; font-size: 0.84rem; color: #555; }
+    .notice strong { color: #e65100; }
+
+    /* Language Selector */
+    .lang-selector { padding: 10px 16px; background: #f0f4ff; border-bottom: 1px solid #dde3ee; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .lang-selector span { font-size: 0.82rem; font-weight: 600; color: #1a3a6b; }
+    .lang-btn { background: #fff; border: 1px solid #c5d0e6; color: #1a3a6b; padding: 5px 16px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; cursor: pointer; font-family: 'Noto Sans', sans-serif; transition: all 0.2s; }
+    .lang-btn:hover { background: #1a3a6b; color: #fff; border-color: #1a3a6b; }
+    .lang-btn.active { background: #FF6B00; color: #fff; border-color: #FF6B00; }
+
+    #chat-section { margin-bottom: 32px; }
+    .chat-wrapper { background: #fff; border: 1px solid #dde3ee; border-radius: 4px; overflow: hidden; }
+    .chat-head { background: #1a3a6b; color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+    .chat-head-icon { width: 34px; height: 34px; background: #FF6B00; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .chat-head-text h4 { font-size: 0.95rem; font-weight: 700; }
+    .chat-head-text p { font-size: 0.72rem; opacity: 0.8; margin-top: 1px; }
+    .chat-online { margin-left: auto; background: #22c55e; color: #fff; font-size: 0.7rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+    .chat-messages { height: 380px; overflow-y: auto; padding: 16px; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+    .msg { max-width: 82%; padding: 10px 14px; border-radius: 6px; font-size: 0.84rem; line-height: 1.6; animation: fadeIn 0.2s ease; }
+    .msg.bot { background: #fff; border: 1px solid #dde3ee; align-self: flex-start; border-bottom-left-radius: 2px; }
+    .msg.user { background: #1a3a6b; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
+    .msg.error { background: #fff3f3; border: 1px solid #ffcdd2; color: #c62828; align-self: flex-start; font-size: 0.82rem; }
+    .msg.bot strong { color: #1a3a6b; }
+    .typing { display: flex; gap: 4px; align-items: center; padding: 10px 14px; background: #fff; border: 1px solid #dde3ee; border-radius: 6px; align-self: flex-start; animation: fadeIn 0.2s ease; }
+    .typing span { width: 7px; height: 7px; background: #1a3a6b; border-radius: 50%; animation: bounce 1.2s infinite; opacity: 0.4; }
+    .typing span:nth-child(2) { animation-delay: 0.2s; }
+    .typing span:nth-child(3) { animation-delay: 0.4s; }
+    .quick-btns { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 16px; border-top: 1px solid #eee; background: #fff; }
+    .quick-btn { background: #e8edf5; color: #1a3a6b; border: 1px solid #c5d0e6; padding: 5px 12px; border-radius: 3px; font-size: 0.78rem; font-weight: 600; cursor: pointer; font-family: 'Noto Sans', sans-serif; transition: background 0.15s; }
+    .quick-btn:hover { background: #1a3a6b; color: #fff; }
+    .chat-input-row { display: flex; border-top: 2px solid #1a3a6b; }
+    .chat-input-row input { flex: 1; padding: 12px 16px; border: none; outline: none; font-size: 0.88rem; font-family: 'Noto Sans', sans-serif; background: #fff; }
+    .chat-input-row input::placeholder { color: #aaa; }
+    .chat-send-btn { background: #FF6B00; color: #fff; border: none; padding: 12px 20px; font-size: 0.88rem; font-weight: 700; cursor: pointer; font-family: 'Noto Sans', sans-serif; transition: background 0.2s; white-space: nowrap; }
+    .chat-send-btn:hover { background: #e55a00; }
+    .chat-send-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .chat-disclaimer { background: #f0f4ff; border-top: 1px solid #dde3ee; padding: 8px 16px; font-size: 0.72rem; color: #666; }
+
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 32px; }
+    .step-card { background: #fff; border: 1px solid #dde3ee; border-radius: 4px; padding: 16px; text-align: center; }
+    .step-num { width: 40px; height: 40px; background: #1a3a6b; color: #fff; border-radius: 50%; font-weight: 700; font-size: 1rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+    .step-card h3 { font-size: 0.88rem; font-weight: 700; color: #1a3a6b; margin-bottom: 6px; }
+    .step-card p { font-size: 0.78rem; color: #555; line-height: 1.5; }
+
+    .footer-top { background: #1a3a6b; color: #fff; padding: 24px; }
+    .footer-top-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+    .footer-col h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; }
+    .footer-col p, .footer-col a { font-size: 0.78rem; opacity: 0.8; line-height: 1.8; color: #fff; text-decoration: none; display: block; }
+    .footer-col a:hover { opacity: 1; text-decoration: underline; }
+    .footer-bottom { background: #0f2347; color: rgba(255,255,255,0.6); text-align: center; padding: 12px; font-size: 0.75rem; }
+
+    #float-widget { position: fixed; bottom: 24px; right: 24px; z-index: 999; }
+    #float-toggle { width: 58px; height: 58px; background: #1a3a6b; border: 3px solid #FF6B00; border-radius: 50%; color: #fff; font-size: 1.4rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s; }
+    #float-toggle:hover { transform: scale(1.07); }
+    #float-panel { position: absolute; bottom: 68px; right: 0; width: 340px; background: #fff; border: 1px solid #dde3ee; border-radius: 6px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); overflow: hidden; display: flex; flex-direction: column; transform-origin: bottom right; transform: scale(0.9) translateY(8px); opacity: 0; pointer-events: none; transition: transform 0.2s, opacity 0.2s; }
+    #float-panel.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+    .float-lang-bar { padding: 8px 12px; background: #f0f4ff; border-bottom: 1px solid #dde3ee; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .float-lang-bar span { font-size: 0.75rem; font-weight: 600; color: #1a3a6b; }
+    .float-messages { height: 320px; overflow-y: auto; padding: 12px; background: #f8fafc; display: flex; flex-direction: column; gap: 8px; }
+    .float-input-row { display: flex; border-top: 2px solid #1a3a6b; }
+    .float-input-row input { flex: 1; padding: 10px 12px; border: none; outline: none; font-size: 0.84rem; font-family: 'Noto Sans', sans-serif; }
+    .float-send { background: #FF6B00; color: #fff; border: none; padding: 10px 14px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans', sans-serif; }
+    .float-send:disabled { background: #ccc; cursor: not-allowed; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-5px); opacity: 1; } }
+
+    @media(max-width: 600px) {
+      .header-right { display: none; }
+      #float-panel { width: calc(100vw - 32px); right: -8px; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-strip">
+  <span>🇮🇳 Government of India — Health Awareness Initiative</span>
+  <span>Emergency: <a href="tel:112">112</a> &nbsp;|&nbsp; Health Helpline: <a href="tel:104">104</a></span>
+</div>
+
+<header>
+  <div class="header-main">
+    <div class="logo-circle">🏥</div>
+    <div class="logo-text">
+      <h1>ArogyaBot </h1>
+      <p>AI-Powered Disease Awareness Portal | स्वास्थ्य जागरूकता | ఆరోగ్య అవగాహన</p>
+    </div>
+    <div class="header-right">
+      <div class="helpline"><p>Health Helpline</p><strong>104</strong></div>
+      <div class="helpline"><p>Emergency</p><strong>112</strong></div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="active">Home</a>
+    <a href="#diseases">Diseases</a>
+    <a href="#chat-section">Ask ArogyaBot</a>
+    <a href="#how-it-works">How It Works</a>
+    <button class="nav-chat-btn" onclick="document.getElementById('chat-section').scrollIntoView({behavior:'smooth'})">💬 Chat Now</button>
+  </div>
+</nav>
+
+<div class="hero-banner">
+  <h2>Free AI Health Awareness for Every Indian Citizen</h2>
+  <p>Get instant health information in English, हिंदी, or తెలుగు. Available 24/7. Completely free.</p>
+  <div class="hero-banner-btns">
+    <button class="btn-orange" onclick="document.getElementById('chat-section').scrollIntoView({behavior:'smooth'})">💬 Ask ArogyaBot Now</button>
+    <button class="btn-white" onclick="document.getElementById('diseases').scrollIntoView({behavior:'smooth'})">View Diseases →</button>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><strong>8</strong><span>Diseases Covered</span></div>
+    <div class="stat-item"><strong>3</strong><span>Languages</span></div>
+    <div class="stat-item"><strong>24/7</strong><span>Available</span></div>
+    <div class="stat-item"><strong>Free</strong><span>No Registration</span></div>
+    <div class="stat-item"><strong>AI</strong><span>Powered</span></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="notice">
+    ⚠️ <strong>Disclaimer:</strong> ArogyaBot provides general health awareness only. NOT a substitute for professional medical advice. For emergencies call <strong>112</strong>.
+  </div>
+
+  <div class="sec-head" id="diseases">
+    <div class="sec-head-bar"></div>
+    <h2>Disease Information Centre</h2>
+  </div>
+  <div class="disease-grid">
+    <div class="disease-card" onclick="askDisease('What are the symptoms, causes and prevention of Malaria?')">
+      <span class="icon">🦟</span><h3>Malaria</h3>
+      <p>Mosquito-borne disease causing fever, chills and sweating.</p>
+      <span class="tag">Parasitic</span>
+    </div>
+    <div class="disease-card" onclick="askDisease('What are symptoms, causes and prevention of Dengue fever?')">
+      <span class="icon">🌡️</span><h3>Dengue Fever</h3>
+      <p>Viral fever with joint pain, rash and high temperature.</p>
+      <span class="tag">Viral</span>
+    </div>
+    <div class="disease-card" onclick="askDisease('Explain Diabetes Type 1 and Type 2, symptoms and management.')">
+      <span class="icon">💉</span><h3>Diabetes</h3>
+      <p>Chronic condition affecting blood sugar levels in the body.</p>
+      <span class="tag">Chronic</span>
+    </div>
+    <div class="disease-card" onclick="askDisease('What are symptoms, causes and treatment of Typhoid?')">
+      <span class="icon">🧫</span><h3>Typhoid</h3>
+      <p>Bacterial infection from contaminated food and water.</p>
+      <span class="tag">Bacterial</span>
+    </div>
+    <div class="disease-card" onclick="askDisease('Explain thyroid disorders - hypothyroidism and hyperthyroidism.')">
+      <span class="icon">🔬</span><h3>Thyroid Disorder</h3>
+      <p>Hormonal imbalance affecting metabolism and energy levels.</p>
+      <span class="tag">Hormonal</span>
+    </div>
+    <div class="disease-card" onclick="askDisease('What are COVID-19 symptoms, prevention and treatment?')">
+      <span class="icon">🦠</span><h3>COVID-19</h3>
+      <p>Respiratory illness caused by SARS-CoV-2 coronavirus.</p>
+      <span class="tag">Viral</span>
+    </div>
+    <div class="disease-card" onclick="askDisease('What is Influenza flu? Symptoms, prevention and vaccine info.')">
+      <span class="icon">🤧</span><h3>Influenza (Flu)</h3>
+      <p>Seasonal respiratory illness with sudden fever and body aches.</p>
+      <span class="tag">Viral</span>
+    </div>
+    <div class="disease-card" onclick="askDisease('What is Cholera? Symptoms, treatment and ORS usage.')">
+      <span class="icon">💧</span><h3>Cholera</h3>
+      <p>Waterborne disease causing severe diarrhea and dehydration.</p>
+      <span class="tag">Bacterial</span>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div id="chat-section">
+      <div class="sec-head">
+        <div class="sec-head-bar"></div>
+        <h2>Ask ArogyaBot</h2>
+      </div>
+      <div class="chat-wrapper">
+        <div class="chat-head">
+          <div class="chat-head-icon">🤖</div>
+          <div class="chat-head-text">
+            <h4>ArogyaBot Assistant</h4>
+            <p>Powered by AI • English | हिंदी | తెలుగు</p>
+          </div>
+          <div class="chat-online">● Online</div>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="lang-selector">
+          <span>🌐 Language:</span>
+          <button class="lang-btn active" id="main-lang-en" onclick="setMainLang('en')">English</button>
+          <button class="lang-btn" id="main-lang-hi" onclick="setMainLang('hi')">हिंदी</button>
+          <button class="lang-btn" id="main-lang-te" onclick="setMainLang('te')">తెలుగు</button>
+        </div>
+
+        <div class="chat-messages" id="main-messages"></div>
+        <div class="quick-btns" id="main-quick">
+          <button class="quick-btn" onclick="quickAsk('Dengue symptoms?')">Dengue symptoms</button>
+          <button class="quick-btn" onclick="quickAsk('How to prevent Malaria?')">Prevent Malaria</button>
+          <button class="quick-btn" onclick="quickAsk('I have fever and joint pain')">Symptom check</button>
+          <button class="quick-btn" onclick="quickAsk('COVID-19 prevention tips')">COVID tips</button>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="main-input" placeholder="Type your question here…"/>
+          <button class="chat-send-btn" id="main-send" onclick="sendMain()">SEND →</button>
+        </div>
+        <div class="chat-disclaimer">⚠️ For awareness only. Consult a doctor for medical advice.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-head">
+        <div class="sec-head-bar"></div>
+        <h2>Health Tips & Prevention</h2>
+      </div>
+      <div class="info-box" style="margin-bottom:14px">
+        <div class="info-box-head">🛡️ General Prevention Tips</div>
+        <div class="info-box-body">
+          <ul>
+            <li><strong>Wash hands</strong> regularly with soap for 20 seconds</li>
+            <li><strong>Drink clean water</strong> — boil or use filtered water</li>
+            <li><strong>Use mosquito nets</strong> and repellents at home</li>
+            <li><strong>Eat fresh food</strong> and avoid uncovered street food</li>
+            <li><strong>Get vaccinated</strong> — check Ayushman Bharat scheme</li>
+            <li><strong>Exercise daily</strong> and maintain healthy body weight</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-head">📞 Important Helplines</div>
+        <div class="info-box-body">
+          <ul>
+            <li><strong>112</strong> — National Emergency Number</li>
+            <li><strong>104</strong> — Health Helpline (Free)</li>
+            <li><strong>1800-11-4477</strong> — Ayushman Bharat</li>
+            <li><strong>011-23978046</strong> — COVID-19 Helpline</li>
+            <li><strong>ASHA Worker</strong> — Visit nearest PHC/CHC</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head" id="how-it-works">
+    <div class="sec-head-bar"></div>
+    <h2>How ArogyaBot Works</h2>
+  </div>
+  <div class="steps">
+    <div class="step-card"><div class="step-num">1</div><h3>Select Language</h3><p>Choose English, Hindi or Telugu from the language selector.</p></div>
+    <div class="step-card"><div class="step-num">2</div><h3>Type Your Question</h3><p>Ask about any disease or describe your symptoms.</p></div>
+    <div class="step-card"><div class="step-num">3</div><h3>Get Clear Answer</h3><p>Receive a simple, verified answer in your chosen language.</p></div>
+    <div class="step-card"><div class="step-num">4</div><h3>Consult Doctor</h3><p>Visit your nearest government hospital or PHC for treatment.</p></div>
+  </div>
+
+</div>
+
+<div class="footer-top">
+  <div class="footer-top-inner">
+    <div class="footer-col">
+      <h4>ArogyaBot</h4>
+      <p>AI-powered disease awareness in English, Hindi & Telugu.</p>
+      <p style="margin-top:8px">Capstone Project — Lovely Professional University</p>
+    </div>
+    <div class="footer-col">
+      <h4>Diseases Covered</h4>
+      <a href="#">Malaria</a><a href="#">Dengue</a><a href="#">Diabetes</a><a href="#">Typhoid</a><a href="#">COVID-19</a>
+    </div>
+    <div class="footer-col">
+      <h4>Government Links</h4>
+      <a href="https://mohfw.gov.in" target="_blank">Ministry of Health</a>
+      <a href="https://nhp.gov.in" target="_blank">National Health Portal</a>
+      <a href="https://pmjay.gov.in" target="_blank">Ayushman Bharat</a>
+    </div>
+    <div class="footer-col">
+      <h4>Emergency Numbers</h4>
+      <p>🚨 Emergency: 112</p>
+      <p>🏥 Health Helpline: 104</p>
+      <p>💊 Ayushman Bharat: 1800-11-4477</p>
+    </div>
+  </div>
+</div>
+<div class="footer-bottom">© 2025 ArogyaBot — For Awareness Purposes Only</div>
+
+<!-- Floating Widget -->
+<div id="float-widget">
+  <div id="float-panel">
+    <div class="chat-head">
+      <div class="chat-head-icon">🤖</div>
+      <div class="chat-head-text"><h4>ArogyaBot</h4><p>Ask me anything</p></div>
+      <button onclick="closeFloat()" style="margin-left:auto;background:none;border:none;color:#fff;font-size:1.1rem;cursor:pointer;">✕</button>
+    </div>
+    <div class="float-lang-bar">
+      <span>🌐</span>
+      <button class="lang-btn active" id="float-lang-en" onclick="setFloatLang('en')">English</button>
+      <button class="lang-btn" id="float-lang-hi" onclick="setFloatLang('hi')">हिंदी</button>
+      <button class="lang-btn" id="float-lang-te" onclick="setFloatLang('te')">తెలుగు</button>
+    </div>
+    <div class="float-messages" id="float-messages"></div>
+    <div class="float-input-row">
+      <input type="text" id="float-input" placeholder="Type your question…"/>
+      <button class="float-send" id="float-send-btn" onclick="sendFloat()">→</button>
+    </div>
+  </div>
+  <button id="float-toggle" onclick="toggleFloat()">💬</button>
+</div>
+
+<script>
+  const API = window.location.origin;
+  let mainHistory = [], floatHistory = [];
+  let mainLoading = false, floatLoading = false;
+  let floatOpen = false;
+  let mainLang = 'en', floatLang = 'en';
+
+  const welcomeMsgs = {
+    en: "Hello! I am ArogyaBot.\n\nAsk me about:\n• Disease symptoms and causes\n• Prevention tips\n• What to do in case of illness\n\nSelect your language above and type your question. 🙏",
+    hi: "नमस्ते! मैं ArogyaBot हूँ।\n\nमुझसे पूछें:\n• बीमारियों के लक्षण और कारण\n• बचाव के तरीके\n• बीमार होने पर क्या करें\n\nऊपर से अपनी भाषा चुनें और सवाल पूछें। 🙏",
+    te: "నమస్కారం! నేను ArogyaBot.\n\nనన్ను అడగండి:\n• వ్యాధి లక్షణాలు మరియు కారణాలు\n• నివారణ చిట్కాలు\n• అనారోగ్యం వస్తే ఏమి చేయాలి\n\nపైన భాష ఎంచుకోండి మరియు మీ ప్రశ్న అడగండి. 🙏"
+  };
+
+  const langChangeMsgs = {
+    en: "Language changed to English. How can I help you?",
+    hi: "भाषा हिंदी में बदल दी गई है। मैं आपकी कैसे मदद कर सकता हूँ?",
+    te: "భాష తెలుగులో మార్చబడింది. నేను మీకు ఎలా సహాయం చేయగలను?"
+  };
+
+  function fmt(t) {
+    return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g,'<em>$1</em>')
+            .replace(/\n/g,'<br>');
+  }
+
+  function addMsg(boxId, text, role) {
+    const box = document.getElementById(boxId);
+    const d = document.createElement('div');
+    d.className = 'msg ' + role;
+    d.innerHTML = role === 'bot' ? fmt(text) : text;
+    box.appendChild(d);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function showTyping(boxId) {
+    const box = document.getElementById(boxId);
+    const t = document.createElement('div');
+    t.className = 'typing'; t.id = 'typ-' + boxId;
+    t.innerHTML = '<span></span><span></span><span></span>';
+    box.appendChild(t); box.scrollTop = box.scrollHeight;
+  }
+
+  function removeTyping(boxId) {
+    const t = document.getElementById('typ-' + boxId);
+    if (t) t.remove();
+  }
+
+  async function callAPI(history, text, boxId, btnId, setLoading, getLoading, lang) {
+    if (getLoading()) return;
+    setLoading(true);
+    document.getElementById(btnId).disabled = true;
+    addMsg(boxId, text, 'user');
+    history.push({ role: 'user', content: text });
+    showTyping(boxId);
+    try {
+      const r = await fetch(API + '/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history, lang: lang })
+      });
+      removeTyping(boxId);
+      if (!r.ok) {
+        const e = await r.json();
+        addMsg(boxId, '⚠️ ' + (e.error || 'Error. Try again.'), 'error');
+        history.pop();
+      } else {
+        const d = await r.json();
+        history.push({ role: 'assistant', content: d.message });
+        addMsg(boxId, d.message, 'bot');
+      }
+    } catch(e) {
+      removeTyping(boxId);
+      addMsg(boxId, '⚠️ Cannot reach server. Make sure backend is running.', 'error');
+      history.pop();
+    } finally {
+      setLoading(false);
+      document.getElementById(btnId).disabled = false;
+    }
+  }
+
+  // Language selectors
+  function setMainLang(lang) {
+    mainLang = lang;
+    mainHistory = [];
+    document.querySelectorAll('[id^="main-lang-"]').forEach(b => b.classList.remove('active'));
+    document.getElementById('main-lang-' + lang).classList.add('active');
+    document.getElementById('main-messages').innerHTML = '';
+    document.getElementById('main-quick').style.display = 'flex';
+    addMsg('main-messages', langChangeMsgs[lang], 'bot');
+  }
+
+  function setFloatLang(lang) {
+    floatLang = lang;
+    floatHistory = [];
+    document.querySelectorAll('[id^="float-lang-"]').forEach(b => b.classList.remove('active'));
+    document.getElementById('float-lang-' + lang).classList.add('active');
+    document.getElementById('float-messages').innerHTML = '';
+    addMsg('float-messages', langChangeMsgs[lang], 'bot');
+  }
+
+  // Main chat
+  function sendMain() {
+    const inp = document.getElementById('main-input');
+    const text = inp.value.trim();
+    if (!text) return;
+    inp.value = '';
+    document.getElementById('main-quick').style.display = 'none';
+    callAPI(mainHistory, text, 'main-messages', 'main-send',
+      v => mainLoading = v, () => mainLoading, mainLang);
+  }
+  document.getElementById('main-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendMain();
+  });
+
+  function quickAsk(text) {
+    document.getElementById('main-quick').style.display = 'none';
+    callAPI(mainHistory, text, 'main-messages', 'main-send',
+      v => mainLoading = v, () => mainLoading, mainLang);
+  }
+
+  function askDisease(query) {
+    document.getElementById('chat-section').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('main-quick').style.display = 'none';
+    setTimeout(() => callAPI(mainHistory, query, 'main-messages', 'main-send',
+      v => mainLoading = v, () => mainLoading, mainLang), 600);
+  }
+
+  // Float chat
+  function toggleFloat() { floatOpen ? closeFloat() : openFloat(); }
+  function openFloat() {
+    floatOpen = true;
+    document.getElementById('float-panel').classList.add('open');
+    document.getElementById('float-toggle').innerHTML = '✕';
+    if (floatHistory.length === 0) {
+      addMsg('float-messages', welcomeMsgs[floatLang], 'bot');
+    }
+    setTimeout(() => document.getElementById('float-input').focus(), 300);
+  }
+  function closeFloat() {
+    floatOpen = false;
+    document.getElementById('float-panel').classList.remove('open');
+    document.getElementById('float-toggle').innerHTML = '💬';
+  }
+  function sendFloat() {
+    const inp = document.getElementById('float-input');
+    const text = inp.value.trim();
+    if (!text) return;
+    inp.value = '';
+    callAPI(floatHistory, text, 'float-messages', 'float-send-btn',
+      v => floatLoading = v, () => floatLoading, floatLang);
+  }
+  document.getElementById('float-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendFloat();
+  });
+
+  // Init
+  addMsg('main-messages', welcomeMsgs['en'], 'bot');
+</script>
+</body>
+</html>
