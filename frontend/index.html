@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ArogyaBot — Disease Awareness Portal</title>
+  <title>CareBot — Disease Awareness Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
@@ -159,7 +159,7 @@
   <div class="header-main">
     <div class="logo-circle">🏥</div>
     <div class="logo-text">
-      <h1>ArogyaBot </h1>
+      <h1>CareBot </h1>
       <p>AI-Powered Disease Awareness Portal | स्वास्थ्य जागरूकता | ఆరోగ్య అవగాహన</p>
     </div>
     <div class="header-right">
@@ -173,7 +173,7 @@
   <div class="nav-inner">
     <a href="#" class="active">Home</a>
     <a href="#diseases">Diseases</a>
-    <a href="#chat-section">Ask ArogyaBot</a>
+    <a href="#chat-section">Ask CareBot</a>
     <a href="#how-it-works">How It Works</a>
     <button class="nav-chat-btn" onclick="document.getElementById('chat-section').scrollIntoView({behavior:'smooth'})">💬 Chat Now</button>
   </div>
@@ -183,7 +183,7 @@
   <h2>Free AI Health Awareness for Every Indian Citizen</h2>
   <p>Get instant health information in English, हिंदी, or తెలుగు. Available 24/7. Completely free.</p>
   <div class="hero-banner-btns">
-    <button class="btn-orange" onclick="document.getElementById('chat-section').scrollIntoView({behavior:'smooth'})">💬 Ask ArogyaBot Now</button>
+    <button class="btn-orange" onclick="document.getElementById('chat-section').scrollIntoView({behavior:'smooth'})">💬 Ask CareBot Now</button>
     <button class="btn-white" onclick="document.getElementById('diseases').scrollIntoView({behavior:'smooth'})">View Diseases →</button>
   </div>
 </div>
@@ -201,7 +201,7 @@
 <div class="main">
 
   <div class="notice">
-    ⚠️ <strong>Disclaimer:</strong> ArogyaBot provides general health awareness only. NOT a substitute for professional medical advice. For emergencies call <strong>112</strong>.
+    ⚠️ <strong>Disclaimer:</strong> CareBot provides general health awareness only. NOT a substitute for professional medical advice. For emergencies call <strong>112</strong>.
   </div>
 
   <div class="sec-head" id="diseases">
@@ -255,13 +255,13 @@
     <div id="chat-section">
       <div class="sec-head">
         <div class="sec-head-bar"></div>
-        <h2>Ask ArogyaBot</h2>
+        <h2>Ask CareBot</h2>
       </div>
       <div class="chat-wrapper">
         <div class="chat-head">
           <div class="chat-head-icon">🤖</div>
           <div class="chat-head-text">
-            <h4>ArogyaBot Assistant</h4>
+            <h4>CareBot Assistant</h4>
             <p>Powered by AI • English | हिंदी | తెలుగు</p>
           </div>
           <div class="chat-online">● Online</div>
@@ -325,7 +325,7 @@
 
   <div class="sec-head" id="how-it-works">
     <div class="sec-head-bar"></div>
-    <h2>How ArogyaBot Works</h2>
+    <h2>How CareBot Works</h2>
   </div>
   <div class="steps">
     <div class="step-card"><div class="step-num">1</div><h3>Select Language</h3><p>Choose English, Hindi or Telugu from the language selector.</p></div>
@@ -339,7 +339,7 @@
 <div class="footer-top">
   <div class="footer-top-inner">
     <div class="footer-col">
-      <h4>ArogyaBot</h4>
+      <h4>CareBot</h4>
       <p>AI-powered disease awareness in English, Hindi & Telugu.</p>
       <p style="margin-top:8px">Capstone Project — Lovely Professional University</p>
     </div>
@@ -361,14 +361,14 @@
     </div>
   </div>
 </div>
-<div class="footer-bottom">© 2025 ArogyaBot — For Awareness Purposes Only</div>
+<div class="footer-bottom">© 2025 CareBot — For Awareness Purposes Only</div>
 
 <!-- Floating Widget -->
 <div id="float-widget">
   <div id="float-panel">
     <div class="chat-head">
       <div class="chat-head-icon">🤖</div>
-      <div class="chat-head-text"><h4>ArogyaBot</h4><p>Ask me anything</p></div>
+      <div class="chat-head-text"><h4>CareBot</h4><p>Ask me anything</p></div>
       <button onclick="closeFloat()" style="margin-left:auto;background:none;border:none;color:#fff;font-size:1.1rem;cursor:pointer;">✕</button>
     </div>
     <div class="float-lang-bar">
@@ -385,7 +385,12 @@
   </div>
   <button id="float-toggle" onclick="toggleFloat()">💬</button>
 </div>
-
+// Check login session
+const userSession = sessionStorage.getItem('arogyabot_user');
+if (!userSession) {
+  window.location.href = 'login.html';
+}
+const loggedUser = userSession ? JSON.parse(userSession) : null;
 <script>
   const API = window.location.origin;
   let mainHistory = [], floatHistory = [];
@@ -394,9 +399,9 @@
   let mainLang = 'en', floatLang = 'en';
 
   const welcomeMsgs = {
-    en: "Hello! I am ArogyaBot.\n\nAsk me about:\n• Disease symptoms and causes\n• Prevention tips\n• What to do in case of illness\n\nSelect your language above and type your question. 🙏",
-    hi: "नमस्ते! मैं ArogyaBot हूँ।\n\nमुझसे पूछें:\n• बीमारियों के लक्षण और कारण\n• बचाव के तरीके\n• बीमार होने पर क्या करें\n\nऊपर से अपनी भाषा चुनें और सवाल पूछें। 🙏",
-    te: "నమస్కారం! నేను ArogyaBot.\n\nనన్ను అడగండి:\n• వ్యాధి లక్షణాలు మరియు కారణాలు\n• నివారణ చిట్కాలు\n• అనారోగ్యం వస్తే ఏమి చేయాలి\n\nపైన భాష ఎంచుకోండి మరియు మీ ప్రశ్న అడగండి. 🙏"
+    en: "Hello! I am CareBot.\n\nAsk me about:\n• Disease symptoms and causes\n• Prevention tips\n• What to do in case of illness\n\nSelect your language above and type your question. 🙏",
+    hi: "नमस्ते! मैं CareBot हूँ।\n\nमुझसे पूछें:\n• बीमारियों के लक्षण और कारण\n• बचाव के तरीके\n• बीमार होने पर क्या करें\n\nऊपर से अपनी भाषा चुनें और सवाल पूछें। 🙏",
+    te: "నమస్కారం! నేను CareBot.\n\nనన్ను అడగండి:\n• వ్యాధి లక్షణాలు మరియు కారణాలు\n• నివారణ చిట్కాలు\n• అనారోగ్యం వస్తే ఏమి చేయాలి\n\nపైన భాష ఎంచుకోండి మరియు మీ ప్రశ్న అడగండి. 🙏"
   };
 
   const langChangeMsgs = {

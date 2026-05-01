@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ArogyaBot India — Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans', sans-serif; background: #f5f7fa; color: #1a1a1a; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Top strip */
+    .top-strip { background: #1a3a6b; color: #fff; font-size: 12px; padding: 5px 20px; display: flex; justify-content: space-between; }
+    .top-strip a { color: #ffd700; text-decoration: none; font-weight: 600; }
+
+    /* Header */
+    header { background: #fff; border-bottom: 3px solid #FF6B00; }
+    .header-main { display: flex; align-items: center; padding: 12px 24px; gap: 16px; max-width: 1200px; margin: 0 auto; }
+    .logo-circle { width: 60px; height: 60px; background: #1a3a6b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
+    .logo-text h1 { font-size: 1.3rem; font-weight: 700; color: #1a3a6b; }
+    .logo-text p { font-size: 0.75rem; color: #666; margin-top: 2px; }
+    .header-right { margin-left: auto; display: flex; gap: 12px; }
+    .helpline { background: #fff3e0; border: 1px solid #FF6B00; border-radius: 6px; padding: 6px 14px; text-align: center; }
+    .helpline p { font-size: 10px; color: #666; }
+    .helpline strong { color: #FF6B00; font-size: 1.1rem; display: block; }
+
+    /* Nav */
+    nav { background: #1a3a6b; }
+    .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; }
+    nav a { color: #fff; text-decoration: none; padding: 12px 18px; font-size: 0.88rem; font-weight: 500; display: inline-block; border-right: 1px solid rgba(255,255,255,0.1); transition: background 0.2s; }
+    nav a:hover { background: #FF6B00; }
+
+    /* Banner */
+    .banner { background: linear-gradient(135deg, #1a3a6b, #2a5298); color: #fff; padding: 20px 24px; text-align: center; }
+    .banner h2 { font-size: 1.1rem; font-weight: 600; opacity: 0.9; }
+
+    /* Main */
+    .main { flex: 1; max-width: 1200px; margin: 30px auto; padding: 0 24px; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+
+    /* Login Box */
+    .login-box { background: #fff; border: 1px solid #dde3ee; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .login-head { background: #1a3a6b; color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 10px; }
+    .login-head-icon { width: 36px; height: 36px; background: #FF6B00; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .login-head h3 { font-size: 1rem; font-weight: 700; }
+    .login-head p { font-size: 0.72rem; opacity: 0.8; margin-top: 2px; }
+    .login-body { padding: 24px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #1a3a6b; margin-bottom: 6px; }
+    .form-group label span { color: #e53935; }
+    .form-group input, .form-group select { width: 100%; padding: 10px 14px; border: 1px solid #c5d0e6; border-radius: 4px; font-size: 0.88rem; font-family: 'Noto Sans', sans-serif; outline: none; transition: border-color 0.2s; color: #1a1a1a; background: #fff; }
+    .form-group input:focus, .form-group select:focus { border-color: #1a3a6b; box-shadow: 0 0 0 2px rgba(26,58,107,0.1); }
+    .form-group input::placeholder { color: #aaa; }
+    .captcha-box { background: #f0f4ff; border: 1px solid #c5d0e6; border-radius: 4px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; }
+    .captcha-text { font-size: 1.3rem; font-weight: 700; letter-spacing: 6px; color: #1a3a6b; font-family: 'Courier New', monospace; text-decoration: line-through; text-decoration-color: #FF6B00; user-select: none; }
+    .captcha-refresh { background: none; border: none; color: #1a3a6b; cursor: pointer; font-size: 1.1rem; padding: 4px; }
+    .login-btn { width: 100%; background: #FF6B00; color: #fff; border: none; padding: 12px; border-radius: 4px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: 'Noto Sans', sans-serif; transition: background 0.2s; margin-top: 8px; }
+    .login-btn:hover { background: #e55a00; }
+    .login-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #dde3ee; }
+    .divider span { font-size: 0.78rem; color: #999; }
+    .register-btn { width: 100%; background: #fff; color: #1a3a6b; border: 2px solid #1a3a6b; padding: 10px; border-radius: 4px; font-size: 0.88rem; font-weight: 600; cursor: pointer; font-family: 'Noto Sans', sans-serif; transition: all 0.2s; }
+    .register-btn:hover { background: #1a3a6b; color: #fff; }
+    .forgot-link { text-align: center; margin-top: 12px; }
+    .forgot-link a { color: #1a3a6b; font-size: 0.82rem; text-decoration: none; }
+    .forgot-link a:hover { text-decoration: underline; }
+    .error-msg { background: #fff3f3; border: 1px solid #ffcdd2; border-radius: 4px; padding: 10px 14px; font-size: 0.82rem; color: #c62828; margin-bottom: 14px; display: none; }
+    .success-msg { background: #f0fff4; border: 1px solid #a7f3d0; border-radius: 4px; padding: 10px 14px; font-size: 0.82rem; color: #065f46; margin-bottom: 14px; display: none; }
+
+    /* Info Panel */
+    .info-panel { display: flex; flex-direction: column; gap: 16px; }
+    .info-box { background: #fff; border: 1px solid #dde3ee; border-radius: 4px; overflow: hidden; }
+    .info-box-head { background: #1a3a6b; color: #fff; padding: 10px 16px; font-size: 0.88rem; font-weight: 600; }
+    .info-box-body { padding: 16px; }
+    .info-box-body ul { padding-left: 18px; }
+    .info-box-body li { font-size: 0.83rem; color: #444; margin-bottom: 8px; line-height: 1.5; }
+    .info-box-body li strong { color: #1a3a6b; }
+    .notice { background: #fff8e1; border: 1px solid #ffc107; border-left: 4px solid #FF6B00; border-radius: 4px; padding: 12px 16px; font-size: 0.83rem; color: #555; }
+    .notice strong { color: #e65100; }
+
+    /* Register Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; display: none; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 6px; width: 480px; max-width: 95vw; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+    .modal-head { background: #1a3a6b; color: #fff; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .modal-head h3 { font-size: 1rem; font-weight: 700; }
+    .modal-close { background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
+    .modal-body { padding: 24px; max-height: 70vh; overflow-y: auto; }
+    .modal-body .form-group { margin-bottom: 14px; }
+    .modal-footer { padding: 16px 24px; border-top: 1px solid #dde3ee; display: flex; gap: 10px; justify-content: flex-end; }
+    .btn-cancel { background: #fff; color: #666; border: 1px solid #dde3ee; padding: 9px 20px; border-radius: 4px; font-family: 'Noto Sans', sans-serif; font-size: 0.88rem; cursor: pointer; }
+    .btn-register { background: #1a3a6b; color: #fff; border: none; padding: 9px 20px; border-radius: 4px; font-family: 'Noto Sans', sans-serif; font-size: 0.88rem; font-weight: 600; cursor: pointer; }
+    .btn-register:hover { background: #2a5298; }
+
+    /* Footer */
+    .footer-top { background: #1a3a6b; color: #fff; padding: 20px 24px; margin-top: 30px; }
+    .footer-bottom { background: #0f2347; color: rgba(255,255,255,0.6); text-align: center; padding: 10px; font-size: 0.75rem; }
+
+    @media(max-width: 768px) {
+      .main { grid-template-columns: 1fr; }
+      .header-right { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-strip">
+  <span>🇮🇳 Government of India — Health Awareness Initiative</span>
+  <span>Emergency: <a href="tel:112">112</a> | Health Helpline: <a href="tel:104">104</a></span>
+</div>
+
+<header>
+  <div class="header-main">
+    <div class="logo-circle">🏥</div>
+    <div class="logo-text">
+      <h1>ArogyaBot India</h1>
+      <p>AI-Powered Disease Awareness Portal | स्वास्थ्य जागरूकता | ఆరోగ్య అవగాహన</p>
+    </div>
+    <div class="header-right">
+      <div class="helpline"><p>Health Helpline</p><strong>104</strong></div>
+      <div class="helpline"><p>Emergency</p><strong>112</strong></div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html">🏠 Home</a>
+    <a href="index.html#diseases">Diseases</a>
+    <a href="index.html#chat-section">Ask ArogyaBot</a>
+    <a href="index.html#how-it-works">How It Works</a>
+  </div>
+</nav>
+
+<div class="banner">
+  <h2>🔐 Citizen Login Portal — ArogyaBot India Health Awareness System</h2>
+</div>
+
+<div class="main">
+
+  <!-- Login Box -->
+  <div class="login-box">
+    <div class="login-head">
+      <div class="login-head-icon">👤</div>
+      <div>
+        <h3>Citizen Login</h3>
+        <p>Login to access ArogyaBot Health Services</p>
+      </div>
+    </div>
+    <div class="login-body">
+      <div class="error-msg" id="error-msg">⚠️ Invalid username or password. Please try again.</div>
+      <div class="success-msg" id="success-msg">✅ Login successful! Redirecting...</div>
+
+      <div class="form-group">
+        <label>Username / Mobile Number <span>*</span></label>
+        <input type="text" id="username" placeholder="Enter your username or mobile number" autocomplete="off"/>
+      </div>
+
+      <div class="form-group">
+        <label>Password <span>*</span></label>
+        <input type="password" id="password" placeholder="Enter your password"/>
+      </div>
+
+      <div class="form-group">
+        <label>Language Preference</label>
+        <select id="lang-pref">
+          <option value="en">English</option>
+          <option value="hi">हिंदी (Hindi)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Enter Captcha <span>*</span></label>
+        <div class="captcha-box" style="margin-bottom:8px;">
+          <span class="captcha-text" id="captcha-display"></span>
+          <button class="captcha-refresh" onclick="refreshCaptcha()" title="Refresh Captcha">🔄</button>
+        </div>
+        <input type="text" id="captcha-input" placeholder="Enter the text shown above"/>
+      </div>
+
+      <button class="login-btn" onclick="handleLogin()">LOGIN →</button>
+
+      <div class="divider"><span>OR</span></div>
+
+      <button class="register-btn" onclick="openRegister()">📝 New User? Register Here</button>
+
+      <div class="forgot-link">
+        <a href="#">Forgot Password?</a> &nbsp;|&nbsp;
+        <a href="index.html">Continue without Login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Panel -->
+  <div class="info-panel">
+    <div class="notice">
+      ⚠️ <strong>Important:</strong> ArogyaBot is a free health awareness service. Registration is optional. You can <a href="index.html" style="color:#1a3a6b;font-weight:600;">use the chatbot without logging in</a>.
+    </div>
+
+    <div class="info-box">
+      <div class="info-box-head">🔐 Login Benefits</div>
+      <div class="info-box-body">
+        <ul>
+          <li><strong>Save Chat History</strong> — Access your past health queries</li>
+          <li><strong>Language Preference</strong> — Remembered across sessions</li>
+          <li><strong>Personalized Tips</strong> — Based on your health interests</li>
+          <li><strong>Quick Access</strong> — No need to re-enter preferences</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-box-head">📋 Instructions</div>
+      <div class="info-box-body">
+        <ul>
+          <li>Use your registered <strong>username</strong> or <strong>mobile number</strong></li>
+          <li>Password must be at least <strong>6 characters</strong></li>
+          <li>Enter the <strong>captcha text</strong> exactly as shown</li>
+          <li>Click 🔄 to <strong>refresh captcha</strong> if not readable</li>
+          <li>New users can <strong>register</strong> for free in 30 seconds</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-box-head">📞 Help & Support</div>
+      <div class="info-box-body">
+        <ul>
+          <li><strong>112</strong> — National Emergency</li>
+          <li><strong>104</strong> — Health Helpline (Free)</li>
+          <li><strong>1800-11-4477</strong> — Ayushman Bharat</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal-overlay" id="register-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>📝 New User Registration</h3>
+      <button class="modal-close" onclick="closeRegister()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="success-msg" id="reg-success" style="display:none;">✅ Registered successfully! You can now login.</div>
+
+      <div class="form-group">
+        <label>Full Name <span style="color:#e53935">*</span></label>
+        <input type="text" id="reg-name" placeholder="Enter your full name"/>
+      </div>
+      <div class="form-group">
+        <label>Mobile Number <span style="color:#e53935">*</span></label>
+        <input type="tel" id="reg-mobile" placeholder="Enter 10-digit mobile number"/>
+      </div>
+      <div class="form-group">
+        <label>Username <span style="color:#e53935">*</span></label>
+        <input type="text" id="reg-username" placeholder="Choose a username"/>
+      </div>
+      <div class="form-group">
+        <label>State</label>
+        <select id="reg-state">
+          <option value="">-- Select State --</option>
+          <option>Andhra Pradesh</option><option>Telangana</option>
+          <option>Maharashtra</option><option>Karnataka</option>
+          <option>Tamil Nadu</option><option>Gujarat</option>
+          <option>Rajasthan</option><option>Uttar Pradesh</option>
+          <option>Punjab</option><option>Haryana</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Password <span style="color:#e53935">*</span></label>
+        <input type="password" id="reg-password" placeholder="Minimum 6 characters"/>
+      </div>
+      <div class="form-group">
+        <label>Confirm Password <span style="color:#e53935">*</span></label>
+        <input type="password" id="reg-confirm" placeholder="Re-enter your password"/>
+      </div>
+      <div class="form-group">
+        <label>Language Preference</label>
+        <select id="reg-lang">
+          <option value="en">English</option>
+          <option value="hi">हिंदी (Hindi)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeRegister()">Cancel</button>
+      <button class="btn-register" onclick="handleRegister()">Register →</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer-top">
+  <div style="max-width:1200px;margin:0 auto;text-align:center;">
+    <p style="font-size:0.82rem;opacity:0.85;">ArogyaBot India — Capstone Project | Lovely Professional University</p>
+  </div>
+</div>
+<div class="footer-bottom">© 2025 ArogyaBot India — For Awareness Purposes Only</div>
+
+<script>
+  // ── Captcha ──────────────────────────────────────────────────
+  let currentCaptcha = '';
+
+  function generateCaptcha() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+  }
+
+  function refreshCaptcha() {
+    currentCaptcha = generateCaptcha();
+    document.getElementById('captcha-display').textContent = currentCaptcha;
+    document.getElementById('captcha-input').value = '';
+  }
+
+  // Generate on load
+  refreshCaptcha();
+
+  // ── Users Store (localStorage) ────────────────────────────────
+  function getUsers() {
+    try { return JSON.parse(localStorage.getItem('arogyabot_users') || '[]'); } catch { return []; }
+  }
+  function saveUsers(users) {
+    localStorage.setItem('arogyabot_users', JSON.stringify(users));
+  }
+
+  // Pre-register a demo user
+  if (getUsers().length === 0) {
+    saveUsers([{ username: 'demo', password: 'demo123', name: 'Demo User', lang: 'en' }]);
+  }
+
+  // ── Login ──────────────────────────────────────────────────────
+  function handleLogin() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const captchaInput = document.getElementById('captcha-input').value.trim().toUpperCase();
+    const lang = document.getElementById('lang-pref').value;
+
+    const errEl = document.getElementById('error-msg');
+    const sucEl = document.getElementById('success-msg');
+    errEl.style.display = 'none';
+    sucEl.style.display = 'none';
+
+    if (!username || !password || !captchaInput) {
+      errEl.textContent = '⚠️ Please fill all required fields.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    if (captchaInput !== currentCaptcha) {
+      errEl.textContent = '⚠️ Incorrect captcha. Please try again.';
+      errEl.style.display = 'block';
+      refreshCaptcha();
+      return;
+    }
+
+    const users = getUsers();
+    const user = users.find(u => (u.username === username || u.mobile === username) && u.password === password);
+
+    if (!user) {
+      errEl.textContent = '⚠️ Invalid username or password. Please try again.';
+      errEl.style.display = 'block';
+      refreshCaptcha();
+      return;
+    }
+
+    // Save session
+    sessionStorage.setItem('arogyabot_user', JSON.stringify({ name: user.name, username: user.username, lang }));
+
+    sucEl.style.display = 'block';
+    setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+  }
+
+  // Enter key support
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLogin();
+  });
+
+  // ── Register ──────────────────────────────────────────────────
+  function openRegister() {
+    document.getElementById('register-modal').classList.add('open');
+  }
+  function closeRegister() {
+    document.getElementById('register-modal').classList.remove('open');
+    document.getElementById('reg-success').style.display = 'none';
+  }
+
+  function handleRegister() {
+    const name = document.getElementById('reg-name').value.trim();
+    const mobile = document.getElementById('reg-mobile').value.trim();
+    const username = document.getElementById('reg-username').value.trim();
+    const password = document.getElementById('reg-password').value;
+    const confirm = document.getElementById('reg-confirm').value;
+    const lang = document.getElementById('reg-lang').value;
+
+    if (!name || !mobile || !username || !password || !confirm) {
+      alert('Please fill all required fields.'); return;
+    }
+    if (mobile.length !== 10 || isNaN(mobile)) {
+      alert('Please enter a valid 10-digit mobile number.'); return;
+    }
+    if (password.length < 6) {
+      alert('Password must be at least 6 characters.'); return;
+    }
+    if (password !== confirm) {
+      alert('Passwords do not match.'); return;
+    }
+
+    const users = getUsers();
+    if (users.find(u => u.username === username)) {
+      alert('Username already exists. Please choose a different one.'); return;
+    }
+
+    users.push({ name, mobile, username, password, lang });
+    saveUsers(users);
+
+    document.getElementById('reg-success').style.display = 'block';
+    setTimeout(() => {
+      closeRegister();
+      document.getElementById('username').value = username;
+    }, 1500);
+  }
+</script>
+</body>
+</html>
