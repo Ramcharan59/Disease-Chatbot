@@ -323,10 +323,10 @@
 
   // ── Users Store (localStorage) ────────────────────────────────
   function getUsers() {
-    try { return JSON.parse(localStorage.getItem('Carebot_users') || '[]'); } catch { return []; }
+    try { return JSON.parse(localStorage.getItem('CareBot_users') || '[]'); } catch { return []; }
   }
   function saveUsers(users) {
-    localStorage.setItem('Carebot_users', JSON.stringify(users));
+    localStorage.setItem('CareBot_users', JSON.stringify(users));
   }
 
   // Pre-register a demo user
@@ -370,7 +370,7 @@
     }
 
     // Save session
-    sessionStorage.setItem('Carebot_user', JSON.stringify({ name: user.name, username: user.username, lang }));
+    sessionStorage.setItem('CareBot_user', JSON.stringify({ name: user.name, username: user.username, lang }));
 
     sucEl.style.display = 'block';
     setTimeout(() => { window.location.href = 'index.html'; }, 1200);

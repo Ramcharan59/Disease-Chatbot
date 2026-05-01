@@ -176,6 +176,8 @@
     <a href="#chat-section">Ask CareBot</a>
     <a href="#how-it-works">How It Works</a>
     <button class="nav-chat-btn" onclick="document.getElementById('chat-section').scrollIntoView({behavior:'smooth'})">💬 Chat Now</button>
+    <span id="user-greeting" style="color:#fff;font-size:0.82rem;padding:0 12px;opacity:0.85;"></span>
+    <button class="nav-chat-btn" onclick="handleLogout()" style="background:#e53935;margin-left:4px;">🚪 Logout</button>
   </div>
 </nav>
 
@@ -385,13 +387,12 @@
   </div>
   <button id="float-toggle" onclick="toggleFloat()">💬</button>
 </div>
-// Check login session
-const userSession = sessionStorage.getItem('CareBot_user');
-if (!userSession) {
-  window.location.href = 'login.html';
-}
-const loggedUser = userSession ? JSON.parse(userSession) : null;
 <script>
+  // ── Session Check ─────────────────────────────
+  const _session = sessionStorage.getItem('carebot_user') || sessionStorage.getItem('arogyabot_user');
+  if (!_session) {
+    window.location.href = 'login.html';
+  }
   const API = window.location.origin;
   let mainHistory = [], floatHistory = [];
   let mainLoading = false, floatLoading = false;
@@ -548,6 +549,23 @@ const loggedUser = userSession ? JSON.parse(userSession) : null;
 
   // Init
   addMsg('main-messages', welcomeMsgs['en'], 'bot');
+  // ── User greeting + Logout ────────────────────
+const _user = _session ? JSON.parse(_session) : null;
+if (_user) {
+  const greet = document.getElementById('user-greeting');
+  if (greet) greet.textContent = '👤 ' + (_user.name || _user.username);
+  if (_user.lang && _user.lang !== 'en') {
+    setTimeout(() => setMainLang(_user.lang), 500);
+  }
+}
+
+function handleLogout() {
+  if (confirm('Are you sure you want to logout?')) {
+    sessionStorage.removeItem('carebot_user');
+    sessionStorage.removeItem('arogyabot_user');
+    window.location.href = 'login.html';
+  }
+}
 </script>
 </body>
 </html>
