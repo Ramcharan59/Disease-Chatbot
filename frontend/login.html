@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ArogyaBot India — Login</title>
+  <title>CareBot India — Login</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -113,7 +113,7 @@
   <div class="header-main">
     <div class="logo-circle">🏥</div>
     <div class="logo-text">
-      <h1>ArogyaBot India</h1>
+      <h1>CareBot India</h1>
       <p>AI-Powered Disease Awareness Portal | स्वास्थ्य जागरूकता | ఆరోగ్య అవగాహన</p>
     </div>
     <div class="header-right">
@@ -127,13 +127,13 @@
   <div class="nav-inner">
     <a href="index.html">🏠 Home</a>
     <a href="index.html#diseases">Diseases</a>
-    <a href="index.html#chat-section">Ask ArogyaBot</a>
+    <a href="index.html#chat-section">Ask CareBot</a>
     <a href="index.html#how-it-works">How It Works</a>
   </div>
 </nav>
 
 <div class="banner">
-  <h2>🔐 Citizen Login Portal — ArogyaBot India Health Awareness System</h2>
+  <h2>🔐 Citizen Login Portal — CareBot India Health Awareness System</h2>
 </div>
 
 <div class="main">
@@ -144,7 +144,7 @@
       <div class="login-head-icon">👤</div>
       <div>
         <h3>Citizen Login</h3>
-        <p>Login to access ArogyaBot Health Services</p>
+        <p>Login to access CareBot Health Services</p>
       </div>
     </div>
     <div class="login-body">
@@ -195,7 +195,7 @@
   <!-- Info Panel -->
   <div class="info-panel">
     <div class="notice">
-      ⚠️ <strong>Important:</strong> ArogyaBot is a free health awareness service. Registration is optional. You can <a href="index.html" style="color:#1a3a6b;font-weight:600;">use the chatbot without logging in</a>.
+      ⚠️ <strong>Important:</strong> CareBot is a free health awareness service. Registration is optional. You can <a href="index.html" style="color:#1a3a6b;font-weight:600;">use the chatbot without logging in</a>.
     </div>
 
     <div class="info-box">
@@ -296,10 +296,10 @@
 
 <div class="footer-top">
   <div style="max-width:1200px;margin:0 auto;text-align:center;">
-    <p style="font-size:0.82rem;opacity:0.85;">ArogyaBot India — Capstone Project | Lovely Professional University</p>
+    <p style="font-size:0.82rem;opacity:0.85;">CareBot India — Capstone Project | Lovely Professional University</p>
   </div>
 </div>
-<div class="footer-bottom">© 2025 ArogyaBot India — For Awareness Purposes Only</div>
+<div class="footer-bottom">© 2025 CareBot India — For Awareness Purposes Only</div>
 
 <script>
   // ── Captcha ──────────────────────────────────────────────────
@@ -323,10 +323,10 @@
 
   // ── Users Store (localStorage) ────────────────────────────────
   function getUsers() {
-    try { return JSON.parse(localStorage.getItem('arogyabot_users') || '[]'); } catch { return []; }
+    try { return JSON.parse(localStorage.getItem('Carebot_users') || '[]'); } catch { return []; }
   }
   function saveUsers(users) {
-    localStorage.setItem('arogyabot_users', JSON.stringify(users));
+    localStorage.setItem('Carebot_users', JSON.stringify(users));
   }
 
   // Pre-register a demo user
@@ -370,7 +370,7 @@
     }
 
     // Save session
-    sessionStorage.setItem('arogyabot_user', JSON.stringify({ name: user.name, username: user.username, lang }));
+    sessionStorage.setItem('Carebot_user', JSON.stringify({ name: user.name, username: user.username, lang }));
 
     sucEl.style.display = 'block';
     setTimeout(() => { window.location.href = 'index.html'; }, 1200);
