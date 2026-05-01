@@ -389,9 +389,9 @@
 </div>
 <script>
   // ── Session Check ─────────────────────────────
-  const _session = sessionStorage.getItem('carebot_user') || sessionStorage.getItem('arogyabot_user');
+ const _session = sessionStorage.getItem('carebot_user');
   if (!_session) {
-    window.location.href = 'login.html';
+    window.location.href = '/frontend/login.html':
   }
   const API = window.location.origin;
   let mainHistory = [], floatHistory = [];
@@ -552,7 +552,7 @@
   // ── User greeting + Logout ────────────────────
 const _user = _session ? JSON.parse(_session) : null;
 if (_user) {
-  const greet = document.getElementById('user-greeting');
+  const greet = document.getElementById('user-greeting')
   if (greet) greet.textContent = '👤 ' + (_user.name || _user.username);
   if (_user.lang && _user.lang !== 'en') {
     setTimeout(() => setMainLang(_user.lang), 500);
