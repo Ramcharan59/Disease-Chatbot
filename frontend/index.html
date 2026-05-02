@@ -29,8 +29,11 @@
     .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; }
     nav a { color: #fff; text-decoration: none; padding: 12px 18px; font-size: 0.88rem; font-weight: 500; display: inline-block; transition: background 0.2s; border-right: 1px solid rgba(255,255,255,0.1); }
     nav a:hover, nav a.active { background: #FF6B00; }
-    .nav-chat-btn { margin-left: auto; background: #FF6B00; color: #fff; padding: 10px 20px; font-weight: 600; font-size: 0.88rem; border: none; cursor: pointer; font-family: 'Noto Sans', sans-serif; }
+    .nav-chat-btn { background: #FF6B00; color: #fff; padding: 10px 20px; font-weight: 600; font-size: 0.88rem; border: none; cursor: pointer; font-family: 'Noto Sans', sans-serif; }
     .nav-chat-btn:hover { background: #e55a00; }
+    .nav-logout-btn { background: #e53935; color: #fff; padding: 10px 16px; font-weight: 600; font-size: 0.88rem; border: none; cursor: pointer; font-family: 'Noto Sans', sans-serif; margin-left: 4px; }
+    .nav-logout-btn:hover { background: #c62828; }
+    #user-greeting { color: #fff; font-size: 0.82rem; padding: 0 12px; opacity: 0.9; }
 
     .hero-banner { background: linear-gradient(135deg, #1a3a6b 0%, #2a5298 100%); color: #fff; padding: 40px 24px; text-align: center; }
     .hero-banner h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; margin-bottom: 10px; }
@@ -57,7 +60,6 @@
     .disease-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 32px; }
     .disease-card { background: #fff; border: 1px solid #dde3ee; border-top: 3px solid #1a3a6b; border-radius: 4px; padding: 16px; cursor: pointer; transition: box-shadow 0.2s, border-top-color 0.2s; }
     .disease-card:hover { box-shadow: 0 4px 16px rgba(26,58,107,0.12); border-top-color: #FF6B00; }
-    .disease-card .icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
     .disease-card h3 { font-size: 0.95rem; font-weight: 700; color: #1a3a6b; margin-bottom: 6px; }
     .disease-card p { font-size: 0.8rem; color: #555; line-height: 1.5; }
     .disease-card .tag { display: inline-block; margin-top: 8px; background: #e8edf5; color: #1a3a6b; font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 2px; text-transform: uppercase; }
@@ -75,7 +77,6 @@
     .notice { background: #fff8e1; border: 1px solid #ffc107; border-left: 4px solid #ffc107; border-radius: 4px; padding: 12px 16px; margin-bottom: 24px; font-size: 0.84rem; color: #555; }
     .notice strong { color: #e65100; }
 
-    /* Language Selector */
     .lang-selector { padding: 10px 16px; background: #f0f4ff; border-bottom: 1px solid #dde3ee; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .lang-selector span { font-size: 0.82rem; font-weight: 600; color: #1a3a6b; }
     .lang-btn { background: #fff; border: 1px solid #c5d0e6; color: #1a3a6b; padding: 5px 16px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; cursor: pointer; font-family: 'Noto Sans', sans-serif; transition: all 0.2s; }
@@ -159,7 +160,7 @@
   <div class="header-main">
     <div class="logo-circle">🏥</div>
     <div class="logo-text">
-      <h1>CareBot </h1>
+      <h1>CareBot India</h1>
       <p>AI-Powered Disease Awareness Portal | स्वास्थ्य जागरूकता | ఆరోగ్య అవగాహన</p>
     </div>
     <div class="header-right">
@@ -176,8 +177,8 @@
     <a href="#chat-section">Ask CareBot</a>
     <a href="#how-it-works">How It Works</a>
     <button class="nav-chat-btn" onclick="document.getElementById('chat-section').scrollIntoView({behavior:'smooth'})">💬 Chat Now</button>
-    <span id="user-greeting" style="color:#fff;font-size:0.82rem;padding:0 12px;opacity:0.85;"></span>
-    <button class="nav-chat-btn" onclick="handleLogout()" style="background:#e53935;margin-left:4px;">🚪 Logout</button>
+    <span id="user-greeting"></span>
+    <button class="nav-logout-btn" onclick="handleLogout()">🚪 Logout</button>
   </div>
 </nav>
 
@@ -212,42 +213,42 @@
   </div>
   <div class="disease-grid">
     <div class="disease-card" onclick="askDisease('What are the symptoms, causes and prevention of Malaria?')">
-      <span class="icon">🦟</span><h3>Malaria</h3>
+      <h3>🦟 Malaria</h3>
       <p>Mosquito-borne disease causing fever, chills and sweating.</p>
       <span class="tag">Parasitic</span>
     </div>
     <div class="disease-card" onclick="askDisease('What are symptoms, causes and prevention of Dengue fever?')">
-      <span class="icon">🌡️</span><h3>Dengue Fever</h3>
+      <h3>🌡️ Dengue Fever</h3>
       <p>Viral fever with joint pain, rash and high temperature.</p>
       <span class="tag">Viral</span>
     </div>
     <div class="disease-card" onclick="askDisease('Explain Diabetes Type 1 and Type 2, symptoms and management.')">
-      <span class="icon">💉</span><h3>Diabetes</h3>
+      <h3>💉 Diabetes</h3>
       <p>Chronic condition affecting blood sugar levels in the body.</p>
       <span class="tag">Chronic</span>
     </div>
     <div class="disease-card" onclick="askDisease('What are symptoms, causes and treatment of Typhoid?')">
-      <span class="icon">🧫</span><h3>Typhoid</h3>
+      <h3>🧫 Typhoid</h3>
       <p>Bacterial infection from contaminated food and water.</p>
       <span class="tag">Bacterial</span>
     </div>
     <div class="disease-card" onclick="askDisease('Explain thyroid disorders - hypothyroidism and hyperthyroidism.')">
-      <span class="icon">🔬</span><h3>Thyroid Disorder</h3>
+      <h3>🔬 Thyroid Disorder</h3>
       <p>Hormonal imbalance affecting metabolism and energy levels.</p>
       <span class="tag">Hormonal</span>
     </div>
     <div class="disease-card" onclick="askDisease('What are COVID-19 symptoms, prevention and treatment?')">
-      <span class="icon">🦠</span><h3>COVID-19</h3>
+      <h3>🦠 COVID-19</h3>
       <p>Respiratory illness caused by SARS-CoV-2 coronavirus.</p>
       <span class="tag">Viral</span>
     </div>
     <div class="disease-card" onclick="askDisease('What is Influenza flu? Symptoms, prevention and vaccine info.')">
-      <span class="icon">🤧</span><h3>Influenza (Flu)</h3>
+      <h3>🤧 Influenza (Flu)</h3>
       <p>Seasonal respiratory illness with sudden fever and body aches.</p>
       <span class="tag">Viral</span>
     </div>
     <div class="disease-card" onclick="askDisease('What is Cholera? Symptoms, treatment and ORS usage.')">
-      <span class="icon">💧</span><h3>Cholera</h3>
+      <h3>💧 Cholera</h3>
       <p>Waterborne disease causing severe diarrhea and dehydration.</p>
       <span class="tag">Bacterial</span>
     </div>
@@ -268,15 +269,12 @@
           </div>
           <div class="chat-online">● Online</div>
         </div>
-
-        <!-- Language Selector -->
         <div class="lang-selector">
           <span>🌐 Language:</span>
           <button class="lang-btn active" id="main-lang-en" onclick="setMainLang('en')">English</button>
           <button class="lang-btn" id="main-lang-hi" onclick="setMainLang('hi')">हिंदी</button>
           <button class="lang-btn" id="main-lang-te" onclick="setMainLang('te')">తెలుగు</button>
         </div>
-
         <div class="chat-messages" id="main-messages"></div>
         <div class="quick-btns" id="main-quick">
           <button class="quick-btn" onclick="quickAsk('Dengue symptoms?')">Dengue symptoms</button>
@@ -341,7 +339,7 @@
 <div class="footer-top">
   <div class="footer-top-inner">
     <div class="footer-col">
-      <h4>CareBot</h4>
+      <h4>CareBot India</h4>
       <p>AI-powered disease awareness in English, Hindi & Telugu.</p>
       <p style="margin-top:8px">Capstone Project — Lovely Professional University</p>
     </div>
@@ -363,9 +361,8 @@
     </div>
   </div>
 </div>
-<div class="footer-bottom">© 2025 CareBot — For Awareness Purposes Only</div>
+<div class="footer-bottom">© 2025 CareBot India — For Awareness Purposes Only</div>
 
-<!-- Floating Widget -->
 <div id="float-widget">
   <div id="float-panel">
     <div class="chat-head">
@@ -387,12 +384,30 @@
   </div>
   <button id="float-toggle" onclick="toggleFloat()">💬</button>
 </div>
+
 <script>
   // ── Session Check ─────────────────────────────
- const _session = sessionStorage.getItem('carebot_user');
+  const _session = sessionStorage.getItem('CareBot_user');
   if (!_session) {
-    window.location.href = '/frontend/login.html':
+    window.location.href = '/frontend/login.html';
   }
+
+  // ── Show user name in nav ─────────────────────
+  const _user = _session ? JSON.parse(_session) : null;
+  if (_user) {
+    const greet = document.getElementById('user-greeting');
+    if (greet) greet.textContent = '👤 ' + (_user.name || _user.username);
+  }
+
+  // ── Logout ────────────────────────────────────
+  function handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+      sessionStorage.removeItem('CareBot_user');
+      window.location.href = '/frontend/login.html';
+    }
+  }
+
+  // ── API ───────────────────────────────────────
   const API = window.location.origin;
   let mainHistory = [], floatHistory = [];
   let mainLoading = false, floatLoading = false;
@@ -472,7 +487,6 @@
     }
   }
 
-  // Language selectors
   function setMainLang(lang) {
     mainLang = lang;
     mainHistory = [];
@@ -492,7 +506,6 @@
     addMsg('float-messages', langChangeMsgs[lang], 'bot');
   }
 
-  // Main chat
   function sendMain() {
     const inp = document.getElementById('main-input');
     const text = inp.value.trim();
@@ -519,7 +532,6 @@
       v => mainLoading = v, () => mainLoading, mainLang), 600);
   }
 
-  // Float chat
   function toggleFloat() { floatOpen ? closeFloat() : openFloat(); }
   function openFloat() {
     floatOpen = true;
@@ -547,25 +559,13 @@
     if (e.key === 'Enter') sendFloat();
   });
 
-  // Init
-  addMsg('main-messages', welcomeMsgs['en'], 'bot');
-  // ── User greeting + Logout ────────────────────
-const _user = _session ? JSON.parse(_session) : null;
-if (_user) {
-  const greet = document.getElementById('user-greeting')
-  if (greet) greet.textContent = '👤 ' + (_user.name || _user.username);
-  if (_user.lang && _user.lang !== 'en') {
+  // Auto-set language from user preference
+  if (_user && _user.lang && _user.lang !== 'en') {
     setTimeout(() => setMainLang(_user.lang), 500);
   }
-}
 
-function handleLogout() {
-  if (confirm('Are you sure you want to logout?')) {
-    sessionStorage.removeItem('carebot_user');
-    sessionStorage.removeItem('arogyabot_user');
-    window.location.href = 'login.html';
-  }
-}
+  // Init welcome message
+  addMsg('main-messages', welcomeMsgs['en'], 'bot');
 </script>
 </body>
 </html>
