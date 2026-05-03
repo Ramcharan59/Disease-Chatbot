@@ -389,8 +389,8 @@
   // ── Session Check ─────────────────────────────
   const _session = sessionStorage.getItem('CareBot_user');
   if (!_session) {
-    window.location.href = '/frontend/login.html';
-  }
+  window.location.replace('/login.html');
+}
 
   // ── Show user name in nav ─────────────────────
   const _user = _session ? JSON.parse(_session) : null;
@@ -403,7 +403,7 @@
   function handleLogout() {
     if (confirm('Are you sure you want to logout?')) {
       sessionStorage.removeItem('CareBot_user');
-      window.location.href = '/frontend/login.html';
+      window.location.href = '/login.html';
     }
   }
 

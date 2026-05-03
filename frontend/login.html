@@ -347,7 +347,7 @@
     sessionStorage.setItem('CareBot_user', JSON.stringify({ name: user.name, username: user.username, lang }));
     sucEl.textContent = '✅ Login successful! Redirecting...';
     sucEl.style.display = 'block';
-    setTimeout(() => { window.location.href = '/frontend/index.html'; }, 1200);
+    setTimeout(() => { window.location.href = '/'; }, 1200);
   }
 
   document.addEventListener('keydown', e => {
