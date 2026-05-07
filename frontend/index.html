@@ -147,6 +147,84 @@
       #float-panel { width: calc(100vw - 32px); right: -8px; }
       .two-col { grid-template-columns: 1fr; }
     }
+    /* ── Health Alerts ─────────────────────────── */
+.alert-ticker-wrap {
+  background: #c62828;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  height: 38px;
+}
+.alert-ticker-label {
+  background: #7f0000;
+  color: #fff;
+  padding: 0 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+.alert-ticker-inner {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.alert-ticker-content {
+  white-space: nowrap;
+  font-size: 0.82rem;
+  font-weight: 500;
+  animation: ticker 60s linear infinite;
+  padding-left: 100%;
+}
+.alert-ticker-content:hover { animation-play-state: paused; }
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.gov-alerts-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.gov-alert-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 4px;
+  border-left: 5px solid;
+  background: #fff;
+  border-top: 1px solid #eee;
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.gov-alert-card.red { border-left-color: #c62828; }
+.gov-alert-card.orange { border-left-color: #FF6B00; }
+.gov-alert-card.blue { border-left-color: #1a3a6b; }
+.gov-alert-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+.gov-alert-text strong {
+  display: block;
+  font-size: 0.82rem;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+.gov-alert-text p { font-size: 0.78rem; color: #555; line-height: 1.5; margin: 0; }
+.gov-alert-date {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: #999;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
   </style>
 </head>
 <body>
@@ -202,7 +280,50 @@
 </div>
 
 <div class="main">
+<!-- Government Health Alerts Section -->
+<div class="alert-ticker-wrap">
+  <div class="alert-ticker-label">🚨 HEALTH ALERTS</div>
+  <div class="alert-ticker-inner">
+    <div class="alert-ticker-content" id="ticker-content">
+      🦟 &nbsp;Dengue Alert: Cases rising in AP, Telangana & Maharashtra — Remove stagnant water, use repellents &nbsp;&nbsp;|&nbsp;&nbsp;
+      🌡️ &nbsp;Malaria Advisory: High-risk season active in Odisha, Jharkhand, Chhattisgarh — Use mosquito nets &nbsp;&nbsp;|&nbsp;&nbsp;
+      💉 &nbsp;Diabetes Awareness: 77 million Indians affected — Get blood sugar tested at nearest PHC, free under Ayushman Bharat &nbsp;&nbsp;|&nbsp;&nbsp;
+      🦠 &nbsp;COVID-19 Update: New variants circulating — Mask up in crowded areas, complete vaccination &nbsp;&nbsp;|&nbsp;&nbsp;
+      💧 &nbsp;Cholera Warning: Waterborne disease risk post-monsoon — Drink only boiled or filtered water &nbsp;&nbsp;|&nbsp;&nbsp;
+      🤧 &nbsp;Influenza Season: Flu cases reported in North India — Get annual flu vaccine at government hospitals &nbsp;&nbsp;|&nbsp;&nbsp;
+      🧫 &nbsp;Typhoid Alert: Contaminated water sources reported in UP, Bihar — Wash hands, get vaccination &nbsp;&nbsp;|&nbsp;&nbsp;
+      🔬 &nbsp;Thyroid Awareness: 1 in 10 Indians has thyroid disorder — Get free screening under National Health Mission
+    </div>
+  </div>
+</div>
 
+<!-- Alert Cards -->
+<div class="gov-alerts-section">
+  <div class="gov-alert-card red">
+    <div class="gov-alert-icon">🚨</div>
+    <div class="gov-alert-text">
+      <strong>HIGH ALERT — Dengue & Malaria Season</strong>
+      <p>Increased mosquito-borne disease activity reported across 14 states. Citizens advised to take preventive measures immediately.</p>
+    </div>
+    <div class="gov-alert-date">Issued: May 2025</div>
+  </div>
+  <div class="gov-alert-card orange">
+    <div class="gov-alert-icon">⚠️</div>
+    <div class="gov-alert-text">
+      <strong>ADVISORY — Post-Monsoon Waterborne Diseases</strong>
+      <p>Risk of Cholera and Typhoid elevated in flood-affected regions. Use only boiled water. ORS available free at PHC centers.</p>
+    </div>
+    <div class="gov-alert-date">Issued: May 2025</div>
+  </div>
+  <div class="gov-alert-card blue">
+    <div class="gov-alert-icon">ℹ️</div>
+    <div class="gov-alert-text">
+      <strong>NOTICE — Free Health Screening Camps</strong>
+      <p>Diabetes and Thyroid screening camps organized under Ayushman Bharat. Visit nearest PHC/CHC. No registration required.</p>
+    </div>
+    <div class="gov-alert-date">Issued: May 2025</div>
+  </div>
+</div>
   <div class="notice">
     ⚠️ <strong>Disclaimer:</strong> CareBot provides general health awareness only. NOT a substitute for professional medical advice. For emergencies call <strong>112</strong>.
   </div>
