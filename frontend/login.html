@@ -345,6 +345,12 @@
     }
 
     sessionStorage.setItem('CareBot_user', JSON.stringify({ name: user.name, username: user.username, lang }));
+    // Send health alert SMS on login
+    fetch('/api/send-sms', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mobile: user.mobile || '', name: user.name })
+    }).catch(e => console.log('SMS skipped'));
     sucEl.textContent = '✅ Login successful! Redirecting...';
     sucEl.style.display = 'block';
     setTimeout(() => { window.location.href = '/'; }, 1200);
@@ -391,6 +397,16 @@
 
     users.push({ name, mobile, username, password, lang });
     saveUsers(users);
+    // Send welcome SMS
+    if (mobile) {
+    fetch('/api/send-sms', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mobile, name })
+    }).then(r => r.json()).then(d => {
+    if (d.success) console.log('SMS sent');
+    }).catch(e => console.log('SMS skipped'));
+  }
 
     document.getElementById('reg-success').style.display = 'block';
     setTimeout(() => {

@@ -83,6 +83,54 @@ app.post("/api/chat", async (req, res) => {
     res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 });
+// ── SMS Health Alert ─────────────────────────
+app.post("/api/send-sms", async (req, res) => {
+  try {
+    const { mobile, name } = req.body;
+
+    if (!mobile || mobile.length !== 10) {
+      return res.status(400).json({ error: "Invalid mobile number" });
+    }
+
+    const alerts = [
+      "HEALTH ALERT: Dengue cases rising. Remove stagnant water, use repellents. Call 104 for free health helpline. - CareBot India",
+      "HEALTH ALERT: Malaria season active. Use mosquito nets at night. Free treatment at nearest PHC. - CareBot India",
+      "HEALTH NOTICE: Free Diabetes & Thyroid screening at your nearest PHC under Ayushman Bharat. Call 1800-11-4477. - CareBot India",
+      "HEALTH ALERT: Post-monsoon Cholera risk. Drink only boiled/filtered water. ORS available free at PHC. - CareBot India",
+      "HEALTH NOTICE: COVID-19 variants active. Wear masks in crowded areas. Complete your vaccination. - CareBot India"
+    ];
+
+    const randomAlert = alerts[Math.floor(Math.random() * alerts.length)];
+    const message = `Hello ${name}! ${randomAlert}`;
+
+    const response = await fetch("https://www.fast2sms.com/dev/bulkV2", {
+      method: "POST",
+      headers: {
+        "authorization": process.env.FAST2SMS_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        route: "q",
+        message: message,
+        language: "english",
+        flash: 0,
+        numbers: mobile
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.return === true) {
+      res.json({ success: true, message: "SMS sent successfully" });
+    } else {
+      res.status(500).json({ error: "SMS failed: " + JSON.stringify(data) });
+    }
+
+  } catch (error) {
+    console.error("SMS Error:", error.message);
+    res.status(500).json({ error: "SMS service unavailable" });
+  }
+});
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/index.html"));
