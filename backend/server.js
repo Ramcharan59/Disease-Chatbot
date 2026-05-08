@@ -88,7 +88,8 @@ app.post("/api/send-sms", async (req, res) => {
   try {
     const { mobile, name } = req.body;
 
-    if (!mobile || mobile.length !== 10) {
+    const mobileStr = String(mobile || "").trim();
+    if (!mobileStr || mobileStr.length !== 10 || isNaN(mobileStr)) {
       return res.status(400).json({ error: "Invalid mobile number" });
     }
 
@@ -101,7 +102,8 @@ app.post("/api/send-sms", async (req, res) => {
     ];
 
     const randomAlert = alerts[Math.floor(Math.random() * alerts.length)];
-    const message = `Hello ${name}! ${randomAlert}`;
+    const userName = (name || "User").trim();
+    const message = `Hello ${userName}! ${randomAlert}`;
 
     const response = await fetch("https://www.fast2sms.com/dev/bulkV2", {
       method: "POST",
@@ -110,11 +112,12 @@ app.post("/api/send-sms", async (req, res) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        route: "q",
+        route: "v3",
+        sender_id: "FSTSMS",
         message: message,
         language: "english",
         flash: 0,
-        numbers: mobile
+        numbers: mobileStr
       })
     });
 
