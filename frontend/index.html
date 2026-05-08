@@ -33,7 +33,7 @@
     .nav-chat-btn:hover { background: #e55a00; }
     .nav-logout-btn { background: #e53935; color: #fff; padding: 10px 16px; font-weight: 600; font-size: 0.88rem; border: none; cursor: pointer; font-family: 'Noto Sans', sans-serif; margin-left: 4px; }
     .nav-logout-btn:hover { background: #c62828; }
-    #user-greeting { color: #fff; font-size: 0.82rem; padding: 0 12px; opacity: 0.9; }
+    #user-greeting { color: #fff; font-size: 0.82rem; padding: 0 12px; opacity: 0.9; margin-left: auto; }
 
     .hero-banner { background: linear-gradient(135deg, #1a3a6b 0%, #2a5298 100%); color: #fff; padding: 40px 24px; text-align: center; }
     .hero-banner h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; margin-bottom: 10px; }
@@ -684,6 +684,51 @@
   if (_user && _user.lang && _user.lang !== 'en') {
     setTimeout(() => setMainLang(_user.lang), 500);
   }
+
+
+  // ── Live Health News Ticker ───────────────────
+  async function loadHealthNews() {
+    const ticker = document.getElementById('ticker-content');
+    const fallback = [
+      { icon: "🦟", date: "08 May 2025", text: "Dengue Alert: Cases rising in AP, Telangana &amp; Maharashtra — Remove stagnant water, use repellents" },
+      { icon: "🌡️", date: "07 May 2025", text: "Malaria Advisory: High-risk mosquito season active in Odisha, Jharkhand — Use mosquito nets at night" },
+      { icon: "💉", date: "06 May 2025", text: "Diabetes Alert: 77 million Indians affected — Get free blood sugar test at nearest PHC under Ayushman Bharat" },
+      { icon: "🦠", date: "05 May 2025", text: "COVID-19 Update: New sub-variants circulating — Mask up in crowded areas, complete vaccination schedule" },
+      { icon: "💧", date: "04 May 2025", text: "Cholera Warning: Waterborne disease risk elevated — Drink only boiled or filtered water" },
+      { icon: "🤧", date: "03 May 2025", text: "Influenza Season: Flu cases rising in North India — Annual flu vaccine at government hospitals" },
+      { icon: "🧫", date: "02 May 2025", text: "Typhoid Alert in UP, Bihar — Wash hands frequently, get typhoid vaccination" },
+      { icon: "🔬", date: "01 May 2025", text: "Thyroid Awareness: 1 in 10 Indians has thyroid disorder — Free screening under National Health Mission" },
+    ];
+
+    // Update alert cards with dates
+    const cards = document.querySelectorAll('.gov-alert-date');
+    const dates = ['08 May 2025', '07 May 2025', '06 May 2025'];
+    cards.forEach((c, i) => { if (dates[i]) c.textContent = dates[i]; });
+
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+      const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.who.int/rss-feeds/news-english.xml&count=8', { signal: controller.signal });
+      clearTimeout(timeout);
+      const data = await res.json();
+      if (data.items && data.items.length > 0) {
+        const text = data.items.map(item => {
+          const d = new Date(item.pubDate).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
+          return `📰 &nbsp;<strong>${d}</strong> — ${item.title} &nbsp;&nbsp;|&nbsp;&nbsp;`;
+        }).join('');
+        ticker.innerHTML = text;
+        return;
+      }
+    } catch(e) {}
+
+    // Fallback
+    ticker.innerHTML = fallback.map(a =>
+      `${a.icon} &nbsp;<strong>${a.date}</strong> — ${a.text} &nbsp;&nbsp;|&nbsp;&nbsp;`
+    ).join('');
+  }
+
+  loadHealthNews();
+  setInterval(loadHealthNews, 300000);
 
   // Init welcome message
   addMsg('main-messages', welcomeMsgs['en'], 'bot');
