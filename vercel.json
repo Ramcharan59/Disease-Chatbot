@@ -6,6 +6,10 @@
       "dest": "/api/chat.js"
     },
     {
+      "src": "/api/send-sms",
+      "dest": "/api/send-sms.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }

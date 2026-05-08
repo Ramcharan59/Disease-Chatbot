@@ -105,30 +105,33 @@ app.post("/api/send-sms", async (req, res) => {
     const userName = (name || "User").trim();
     const message = `Hello ${userName}! ${randomAlert}`;
 
-    const response = await fetch("https://www.fast2sms.com/dev/bulkV2", {
+
+    // Twilio SMS API
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const auth = Buffer.from(`${accountSid}:${authToken}`).toString("base64");
+
+    const response = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`, {
       method: "POST",
       headers: {
-        "authorization": process.env.FAST2SMS_KEY,
-        "Content-Type": "application/json"
+        "Authorization": `Basic ${auth}`,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: JSON.stringify({
-        route: "v3",
-        sender_id: "FSTSMS",
-        message: message,
-        language: "english",
-        flash: 0,
-        numbers: mobileStr
+      body: new URLSearchParams({
+        From: process.env.TWILIO_PHONE_NUMBER,
+        To: "+91" + mobileStr,
+        Body: message
       })
     });
 
     const data = await response.json();
+    console.log("Twilio response:", JSON.stringify(data));
 
-    if (data.return === true) {
-      res.json({ success: true, message: "SMS sent successfully" });
+    if (data.sid) {
+      res.json({ success: true, message: "SMS sent successfully!" });
     } else {
-      res.status(500).json({ error: "SMS failed: " + JSON.stringify(data) });
+      res.status(500).json({ error: "SMS failed: " + data.message });
     }
-
   } catch (error) {
     console.error("SMS Error:", error.message);
     res.status(500).json({ error: "SMS service unavailable" });
